@@ -5,7 +5,7 @@ A template to make making your custom pokemon intro easier. Working in pokemon f
 This is "not programmer" friendly way to make a custom intro for pokemon gba games.  
 It is based on Shiny Quagsire's work (https://github.com/shinyquagsire23/FR-CrystalIntro)  
 
-The contents in "g3headers" are just a builded version of: https://github.com/Touched/g3headers  
+The contents in "pokeagb" are just a builded version of: https://github.com/Touched/g3headers  
 
 #-----------------------------------------
 

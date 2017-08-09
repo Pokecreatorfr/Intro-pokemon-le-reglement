@@ -20,7 +20,7 @@ export LD := $(PREFIX)ld
 
 export ASFLAGS := -mthumb
 	
-export INCLUDES := -I $(SRC) -I g3headers/build/include
+export INCLUDES := -I $(SRC) -I pokeagb/build/include
 export WARNINGFLAGS :=	-Wall -Wno-discarded-array-qualifiers \
 	-Wno-int-conversion
 export CFLAGS := -mthumb -mno-thumb-interwork -mcpu=arm7tdmi -mtune=arm7tdmi \
@@ -29,7 +29,7 @@ export CFLAGS := -mthumb -mno-thumb-interwork -mcpu=arm7tdmi -mtune=arm7tdmi \
 	
 
 export LDFLAGS := -r -T linker.ld -T $(ROM_CODE).ld -T \
-	g3headers/build/linker/$(ROM_CODE).ld  
+	pokeagb/build/linker/$(ROM_CODE).ld  
 
 #-------------------------------------------------------------------------------
 	
