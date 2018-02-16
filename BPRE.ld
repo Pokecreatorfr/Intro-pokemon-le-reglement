@@ -8,3 +8,6 @@ play_cry = 0x08071DF0|1;
 
 intro_master = 0x020370BC;
 
+exit_intro = 0x08078914|1;
+
+hook_to_intro = 0x080EC5D0;

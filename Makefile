@@ -8,12 +8,15 @@ include $(DEVKITARM)/base_tools
 
 #-------------------------------------------------------------------------------
 
-export ROM_CODE := BPRE
+ifeq ($(strip $(ROM_CODE)),)
+ROM_CODE := BPRE
+endif
 
-export BUILD := build
+export BUILD := build/$(ROM_CODE)
+export GAME := $(BUILD)/rom.gba
 export SRC := src
 export RESOURCES := resources
-export BINARY := $(BUILD)/linked.o
+export RELOCATABLE := $(BUILD)/linked.o
 
 export ARMIPS ?= armips
 export LD := $(PREFIX)ld
@@ -27,9 +30,8 @@ export CFLAGS := -mthumb -mno-thumb-interwork -mcpu=arm7tdmi -mtune=arm7tdmi \
 	-march=armv4t -mlong-calls -fno-builtin $(WARNINGFLAGS) $(INCLUDES) \
 	-O -finline 
 	
-
-export LDFLAGS := -r -T linker.ld -T $(ROM_CODE).ld -T \
-	pokeagb/build/linker/$(ROM_CODE).ld  
+LD_FILES := linker.ld  $(ROM_CODE).ld  pokeagb/build/linker/$(ROM_CODE).ld
+export LDFLAGS := -r $(foreach f,$(LD_FILES),-T $f)
 
 #-------------------------------------------------------------------------------
 	
@@ -56,16 +58,16 @@ ALL_OBJ := $(C_OBJ) $(S_OBJ) $(OTHER_OBJ)
 
 .PHONY: all clean
 
-all: main.s $(BINARY)
+all: main.s $(RELOCATABLE)
 	@echo -e "Creating ROM"
-	$(ARMIPS) main.s -sym offsets.txt
+	$(ARMIPS) main.s -sym offsets.txt -strequ input_game $(ROM_CODE).gba -strequ relocatable_obj $(RELOCATABLE) -strequ output_game $(GAME) -equ rom_code $(ROM_CODE)
 
 clean:
 	rm -rf build
 
-$(BINARY): $(ALL_OBJ)
+$(RELOCATABLE): $(ALL_OBJ) $(LD_FILES)
 	@echo -e "Linking ELF binary $@"
-	@$(LD) $(LDFLAGS) -o $@ $^
+	@$(LD) $(LDFLAGS) -o $@ $(ALL_OBJ)
 
 $(BUILD)/%.c.o: %.c $(HEADERS)
 	@echo -e "Compiling $<"
@@ -75,7 +77,7 @@ $(BUILD)/%.c.o: %.c $(HEADERS)
 $(BUILD)/%.s.o: %.s $(HEADERS)
 	@echo -e "Assembling $<"
 	@mkdir -p $(@D)
-	@$(AS) $(ASFLAGS) -o $@
+	@$(AS) $(ASFLAGS) -o $@ $< 
 	
 	
 	

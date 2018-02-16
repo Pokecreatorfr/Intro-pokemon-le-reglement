@@ -1,9 +1,15 @@
         .gba
         .thumb
-        .open "BPRE0.gba","build/rom.gba", 0x08000000
+        .open input_game,output_game, 0x08000000
+		
+
+		.definelabel rom_code,0
+		.ifdef BPEE
+		.include "hooks/nop_bpee_intro.s"
+		.endif
 
         .include "hooks/pointer.s"
         
-        .org 0x08800000
-        .importobj "build/linked.o"
+        .org 0x08ef0000
+        .importobj relocatable_obj
         .close

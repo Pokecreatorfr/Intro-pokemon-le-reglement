@@ -2,6 +2,7 @@
 
 #include "headers/intro_master.h"
 
+extern void exit_intro(void);
 bool intro_main();
 
 
@@ -41,7 +42,7 @@ void not_main()
     if (intro_main())
     {
         free_intro_master(&intro_master);
-        end_intro();
+		set_callback2(exit_intro);
         
     }
     update_everything();
@@ -49,7 +50,7 @@ void not_main()
 }
 
 
- void update_everything()
+void update_everything()
 {
     task_exec();
     obj_sync_superstate();
