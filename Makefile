@@ -26,7 +26,7 @@ export ASFLAGS := -mthumb
 export INCLUDES := -I $(SRC) -I pokeagb/build/include
 export WARNINGFLAGS :=	-Wall -Wno-discarded-array-qualifiers \
 	-Wno-int-conversion
-export CFLAGS := -mthumb -mno-thumb-interwork -mcpu=arm7tdmi -mtune=arm7tdmi \
+export CFLAGS := -std=c11 -mthumb -mno-thumb-interwork -mcpu=arm7tdmi -mtune=arm7tdmi \
 	-march=armv4t -mlong-calls -fno-builtin $(WARNINGFLAGS) $(INCLUDES) \
 	-O -finline 
 	
